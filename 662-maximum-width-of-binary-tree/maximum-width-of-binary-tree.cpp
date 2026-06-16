@@ -12,23 +12,21 @@ public:
             int size = q.size();
 
             long long minIndex = q.front().second;
-
             long long first, last;
 
             for (int i = 0; i < size; i++) {
-                auto [node, idx] = q.front();
+                long long currIndex = q.front().second - minIndex;
+                TreeNode* node = q.front().first;
                 q.pop();
 
-                idx -= minIndex; // prevent overflow
-
-                if (i == 0) first = idx;
-                if (i == size - 1) last = idx;
+                if (i == 0) first = currIndex;
+                if (i == size - 1) last = currIndex;
 
                 if (node->left)
-                    q.push({node->left, 2 * idx + 1});
+                    q.push({node->left, 2 * currIndex + 1});
 
                 if (node->right)
-                    q.push({node->right, 2 * idx + 2});
+                    q.push({node->right, 2 * currIndex + 2});
             }
 
             ans = max(ans, last - first + 1);
